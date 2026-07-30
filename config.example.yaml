@@ -1,0 +1,24 @@
+# ClipLocal Configuration
+hotkey: "F9"
+
+obs:
+  path: "C:\\ClipLocal\\obs-portable\\bin\\64bit\\obs64.exe"
+  port: 4455
+  password: "changeme"
+
+# Discord webhook URL for sharing clips
+# Get this from your Discord server settings → Integrations → Webhooks
+discord_webhook_url: "https://discord.com/api/webhooks/YOUR_ID/YOUR_TOKEN"
+
+# Length of the replay buffer in seconds (default: 30)
+replay_buffer_seconds: 30
+
+# Directory where clips will be saved
+# Defaults to %APPDATA%\ClipLocal\clips if empty
+output_dir: ""
+
+# Maximum disk space for clip storage in GB (0 = unlimited)
+max_storage_gb: 10.0
+
+# Port for the local HTTP server (default: 8765)
+port: 8765

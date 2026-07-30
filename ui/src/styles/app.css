@@ -1,0 +1,325 @@
+/* ClipLocal UI - global styles */
+
+:root {
+  --bg: #0d0e12;
+  --surface: #1a1b22;
+  --border: #2a2b36;
+  --accent: #5865f2;
+  --accent-hover: #4752c4;
+  --text: #e2e2e8;
+  --text-muted: #8888aa;
+  --success: #3ba55d;
+  --error: #ed4245;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Clip Gallery ────────────────────────────────────────────────────────── */
+
+.gallery {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.gallery-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.btn-refresh {
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.btn-refresh:hover {
+  background: var(--border);
+}
+
+.clip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.clip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.clip-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #111;
+  overflow: hidden;
+}
+
+.clip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clip-info {
+  padding: 12px;
+  flex: 1;
+}
+
+.clip-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clip-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.clip-apm {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.clip-error {
+  font-size: 0.8rem;
+  color: var(--error);
+  margin-top: 4px;
+}
+
+.clip-actions {
+  padding: 8px 12px 12px;
+}
+
+.btn-share {
+  width: 100%;
+  padding: 8px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-share:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-share:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-share.shared {
+  background: var(--success);
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 48px 16px;
+}
+
+.empty kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9em;
+}
+
+/* ── APM Overlay ─────────────────────────────────────────────────────────── */
+
+.overlay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.recording { background: var(--success); }
+.status-dot.idle      { background: var(--text-muted); }
+.status-dot.error     { background: var(--error); }
+
+.apm-value {
+  font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5ch;
+  text-align: right;
+}
+
+.apm-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.6);
+}
+
+.hotkey-hint {
+  font-size: 0.75rem;
+  background: rgba(255,255,255,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+/* ── Settings ────────────────────────────────────────────────────────────── */
+
+.settings-page {
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.settings-page header {
+  margin-bottom: 24px;
+}
+
+.settings-page h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.field-group input[type="text"],
+.field-group input[type="url"] {
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field-group input[type="text"]:focus,
+.field-group input[type="url"]:focus {
+  border-color: var(--accent);
+}
+
+.field-group input[type="range"] {
+  accent-color: var(--accent);
+  width: 100%;
+}
+
+.field-group small {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.settings-msg {
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+}
+
+.settings-msg.success {
+  background: rgba(59, 165, 93, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(59, 165, 93, 0.3);
+}
+
+.settings-msg.error {
+  background: rgba(237, 66, 69, 0.15);
+  color: var(--error);
+  border: 1px solid rgba(237, 66, 69, 0.3);
+}
+
+.btn-save {
+  padding: 10px 24px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  align-self: flex-start;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  color: var(--error);
+}
