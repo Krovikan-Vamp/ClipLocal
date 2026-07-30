@@ -285,9 +285,17 @@ func (c *Client) removePending(requestID string) {
 	}
 }
 
+// computeAuthentication implements the obs-websocket v5 challenge-response
+// authentication protocol as specified at:
+// https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#authentication
+//
+// This is NOT password storage — the SHA-256 operations produce a one-time
+// authentication token using a server-supplied salt and challenge nonce.
+// The algorithm is mandated by the obs-websocket v5 protocol spec and cannot
+// be changed on the client side.
 func computeAuthentication(password, salt, challenge string) string {
-	secret := sha256.Sum256([]byte(password + salt))
+	secret := sha256.Sum256([]byte(password + salt)) // lgtm[go/weak-sensitive-data-hashing]
 	secretB64 := base64.StdEncoding.EncodeToString(secret[:])
-	auth := sha256.Sum256([]byte(secretB64 + challenge))
+	auth := sha256.Sum256([]byte(secretB64 + challenge)) // lgtm[go/weak-sensitive-data-hashing]
 	return base64.StdEncoding.EncodeToString(auth[:])
 }
