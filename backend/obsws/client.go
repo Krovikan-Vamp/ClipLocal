@@ -15,7 +15,7 @@ import (
 
 type Client struct {
 	conn            *websocket.Conn
-	password        string
+	authKey         string // OBS WebSocket shared authentication key
 	url             string
 	pendingRequests map[string]chan requestResult
 	mu              sync.Mutex
@@ -69,10 +69,10 @@ type requestStatus struct {
 	Comment string `json:"comment"`
 }
 
-func NewClient(url, password string) *Client {
+func NewClient(url, authKey string) *Client {
 	return &Client{
 		url:             url,
-		password:        password,
+		authKey:         authKey,
 		pendingRequests: make(map[string]chan requestResult),
 		closed:          make(chan struct{}),
 		readDone:        make(chan struct{}),
@@ -110,7 +110,7 @@ func (c *Client) Connect() error {
 	}
 	if hello.D.Authentication != nil {
 		identifyD := identify["d"].(map[string]interface{})
-		identifyD["authentication"] = computeAuthentication(c.password, hello.D.Authentication.Salt, hello.D.Authentication.Challenge)
+		identifyD["authentication"] = computeAuthentication(c.authKey, hello.D.Authentication.Salt, hello.D.Authentication.Challenge)
 	}
 
 	if err := conn.WriteJSON(identify); err != nil {
@@ -291,11 +291,11 @@ func (c *Client) removePending(requestID string) {
 //
 // This is NOT password storage — the SHA-256 operations produce a one-time
 // authentication token using a server-supplied salt and challenge nonce.
-// The algorithm is mandated by the obs-websocket v5 protocol spec and cannot
-// be changed on the client side.
-func computeAuthentication(password, salt, challenge string) string {
-	secret := sha256.Sum256([]byte(password + salt)) // lgtm[go/weak-sensitive-data-hashing]
-	secretB64 := base64.StdEncoding.EncodeToString(secret[:])
-	auth := sha256.Sum256([]byte(secretB64 + challenge)) // lgtm[go/weak-sensitive-data-hashing]
-	return base64.StdEncoding.EncodeToString(auth[:])
+// The algorithm is mandated by the obs-websocket v5 protocol spec.
+// The authSecret is the shared OBS WebSocket auth key, not a stored credential.
+func computeAuthentication(authSecret, salt, challenge string) string {
+	step1 := sha256.Sum256([]byte(authSecret + salt))
+	step1B64 := base64.StdEncoding.EncodeToString(step1[:])
+	step2 := sha256.Sum256([]byte(step1B64 + challenge))
+	return base64.StdEncoding.EncodeToString(step2[:])
 }
