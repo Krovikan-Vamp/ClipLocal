@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+target/
+.output/
+dist/
+
+# Build artifacts
+backend/cliplocal.exe
+backend/cliplocal
+
+# Go build artifacts  
+*.exe
+*.test
+
+# SQLite databases
+*.db
+*.sqlite
+
+# Config with secrets
+config.yaml
+
+# OBS portable (large binary, distributed separately)
+installer/obs-portable/*
+!installer/obs-portable/.gitkeep
+
+# ffmpeg binary (distributed separately)
+installer/ffmpeg/*
+!installer/ffmpeg/.gitkeep
+
+# Tauri bundle output
+ui/src-tauri/target/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
